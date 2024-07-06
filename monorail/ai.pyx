@@ -1,6 +1,6 @@
 import copy
-import tiles
-import pickups
+import monorail.tiles as tiles
+import monorail.pickups as pickups
 
 cdef class AiNode #forward declaration
 
@@ -188,10 +188,10 @@ cdef class PredictionTree:
         cdef int cycles_left
         
         if self.root_node is not None:
-            cycles_left = self.CYCLES_PER_UPDATE*2/3 # We make sure we calculate all in limited time
+            cycles_left = self.CYCLES_PER_UPDATE*2//3 # We make sure we calculate all in limited time
             cycles_left = self._update_tree( cycles_left )
             
-            cycles_left = cycles_left + self.CYCLES_PER_UPDATE*1/3
+            cycles_left = cycles_left + self.CYCLES_PER_UPDATE*1//3
             cycles_left = self._calc_nodes_scores( cycles_left )
             
             self._update_tree( cycles_left )
@@ -417,7 +417,7 @@ cdef class AiNode:
         node = self
 
         if node.playfieldstate is None:
-            print "playfieldstate shouldn't be None in real game"
+            print ("playfieldstate shouldn't be None in real game")
             return 0
 
         score = 0
